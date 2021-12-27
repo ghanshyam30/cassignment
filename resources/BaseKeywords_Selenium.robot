@@ -5,15 +5,19 @@ Library                 SeleniumLibrary
 ${T_SHIRT_LOCATOR}          ''
 ${PRICE_LOCATOR}            ''
 ${TOTAL_LOCATOR}            //span[text()='Total']/following-sibling::span
-${Heading}                  Find your spirit animal
+${SHIRT_COLOR_BEIGE}        //div[@class='style-picker']/div[@style='background-color: #dfd3c2']
+${SHIRT_COLOR_GREEN}        //div[@class='style-picker']/div[@style='background-color: #67aa79']
 
 *** Keywords ***
-Open Shop Page
+Open Website Page
         [Documentation]        Open the URL and check if main content is present
         [Arguments]            ${Base_URL}
-        [Tags]                 Smoke
         Open Browser           ${Base_URL}    firefox    executable_path=/home/thebadcoder/TestWorkspace/cassignment/drivers/geckodriver
-        Wait Until Element Is Visible    xpath=//*[text()='${Heading}']
+
+Verify If Page Is Opened
+        [Documentation]         Accepts an xpath to verify if the intended page has opened or not
+        [Arguments]             ${XPATH_FROM_NEW_PAGE}
+        Wait Until Element Is Visible    xpath=${XPATH_FROM_NEW_PAGE}
 
 Find If The Shirt Is Available
         [Documentation]        Accepts the name of Tshirt that user may wish to purchase and returns true if present
@@ -21,6 +25,18 @@ Find If The Shirt Is Available
         Log    ${T_SHIRT_NAME}
         Set Suite Variable    ${T_SHIRT_LOCATOR}    //li/div[@class="product-details"]/descendant::a[text()="${T_SHIRT_NAME}"]
         Wait Until Element Is Visible    xpath=${T_SHIRT_LOCATOR}
+
+Click On The Color Option
+        [Documentation]    Accept color option and check if same color is displayed after choosing one
+        [Arguments]    ${COLOR_TO_CHOOSE}
+        Run Keyword if    "Biege"=="${COLOR_TO_CHOOSE}"    Run Keywords
+            Click Element    ${SHIRT_COLOR_BEIGE}
+            Log    Biege color is chosen
+            Wait Until Element Is Visible    //img[contains(@src,'cream')]
+        Run Keyword if    "Green"=="${COLOR_TO_CHOOSE}"    Run Keywords
+            Click Element    ${SHIRT_COLOR_GREEN}
+            Log    Green color is chosen
+            Wait Until Element Is Visible    //img[contains(@src,'green')]
 
 Get The Price Of Shirt
         [Documentation]        Accepts Shirt name and returns Price
