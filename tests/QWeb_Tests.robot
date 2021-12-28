@@ -35,8 +35,8 @@ Test Copado Platform
     Appstate           Open Website Page    ${COPADO_PLATFORM}
     VerifyElement      //img[@title\='Copado Robotic Testing']        timeout=10
     TypeText           email             ghana.bambale@gmail.com
-    # TypeSecret        password          ${my_pass}
-    TypeText           password          Bitch@001
+    TypeSecret         password          ${my_pass}
+    # TypeText           password          Something
     ClickElement       //button/span[.\='LOGIN']
     VerifyElement      //div/img[@alt\='Copado Robotic Testing']        timeout=10
     VerifyText         Projects
