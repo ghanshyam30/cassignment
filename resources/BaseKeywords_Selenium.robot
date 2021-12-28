@@ -1,18 +1,24 @@
 *** Settings ***
 Library                 SeleniumLibrary
+Variables               variables.py
 
 *** Variables ***
-${T_SHIRT_LOCATOR}          ''
-${PRICE_LOCATOR}            ''
-${TOTAL_LOCATOR}            //span[text()='Total']/following-sibling::span
-${SHIRT_COLOR_BEIGE}        //div[@class='style-picker']/div[@style='background-color: #dfd3c2']
-${SHIRT_COLOR_GREEN}        //div[@class='style-picker']/div[@style='background-color: #67aa79']
+# ${T_SHIRT_LOCATOR}          ''
+# ${PRICE_LOCATOR}            ''
+# ${TOTAL_LOCATOR}            //span[text()='Total']/following-sibling::span
+# ${SHIRT_COLOR_BEIGE}        //div[@class='style-picker']/div[@style='background-color: #dfd3c2']
+# ${SHIRT_COLOR_GREEN}        //div[@class='style-picker']/div[@style='background-color: #67aa79']
 
 *** Keywords ***
+Start Browser
+        [Documentation]        Just open the browser
+        [Arguments]             
+        Open Browser           about:blank               firefox         executable_path=/home/thebadcoder/TestWorkspace/cassignment/drivers/geckodriver
 Open Website Page
         [Documentation]        Open the URL and check if main content is present
-        [Arguments]            ${Base_URL}
-        Open Browser           ${Base_URL}    firefox    executable_path=/home/thebadcoder/TestWorkspace/cassignment/drivers/geckodriver
+        [Arguments]            ${Base_URL}=${SHOP_PAGE_URL}
+        # Open Browser           ${Base_URL}    firefox    executable_path=/home/thebadcoder/TestWorkspace/cassignment/drivers/geckodriver
+        Go To                  ${Base_URL}
 
 Verify If Page Is Opened
         [Documentation]         Accepts an xpath to verify if the intended page has opened or not
@@ -59,3 +65,7 @@ Get Cart Total
         ${TOTAL_VALUE}=        Get Text                ${TOTAL_LOCATOR}
         Log    ${TOTAL_VALUE}
         [Return]               ${TOTAL_VALUE}
+
+Close Test Browser
+        [Documentation]         A teardown operation to kill browser instances opened by automation
+        Close Browser
